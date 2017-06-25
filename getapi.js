@@ -16,5 +16,14 @@ exports.handler = (event, context, callback) => {
         headers: headers,
     });
 
-    dynamo.scan({ TableName: "angelhackteam7" }, done);
+    var searchId = JSON.parse(event.query.id);
+    var params = {};
+    params.TableName = "angelhackteam7";
+    params.Key = {id : searchId};
+    
+    if (searchId) {
+      dynamo.getItem(params, done); 
+    } else {
+      dynamo.scan({ TableName: "angelhackteam7" }, done);
+    }
 };
